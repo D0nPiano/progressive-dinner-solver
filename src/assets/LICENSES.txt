@@ -1,0 +1,4 @@
+CREDENTIALS:
+
+kitchen icon: https://commons.wikimedia.org/wiki/File:Kitchen_icon.svg
+checkmark: https://iconmonstr.com/check-mark-1-svg/
