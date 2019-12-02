@@ -2,7 +2,7 @@
   <div class="page">
     <h1>Assignments</h1>
     <p class="alert alert-success" v-if="hasAssignments">
-      Thats already sufficient! You are now able to <a href="#" @click="$store.commit('setCurrentPage', 'emails')">create & download the data for your E-Mails!</a>
+      That's already sufficient! You are now able to <a href="#" @click="$store.commit('setCurrentPage', 'emails')">create & download the data for your E-Mails!</a>
     </p>
     <p
       class="alert alert-info"

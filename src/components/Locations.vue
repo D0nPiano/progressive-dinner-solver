@@ -10,14 +10,6 @@
     <p class="alert alert-success" v-if="hasLocationData">
       You are good to go! Go on and <a href="#" @click="$store.commit('setCurrentPage', 'teams')">select which kitchens are used and create teams!</a>
     </p>
-    <p v-if="csv.length < 2" class="alert alert-warning">
-      Please provide list of people first
-      <button
-        @click="goToWelcomePage"
-        type="button"
-        class="btn btn-primary"
-      >Go back to the Welcome Page</button>
-    </p>
     <div class="card" style="max-width: 40em; margin: 0 auto;" v-if="csv.length > 2 && !this.hasLocationData">
       <div class="card-body">
         <h5 class="card-title">Add Locations</h5>
@@ -98,9 +90,6 @@ export default {
     }
   },
   methods: {
-    goToWelcomePage() {
-      this.$store.commit("setCurrentPage", "welcome");
-    },
     searchLocation(firstname, street, streetnumber, zip) {
       let location = street + " " + streetnumber + " " + zip;
       location = encodeURI(location);

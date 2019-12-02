@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/guddi.png" style="width: 20em; max-width: 40em">
+    <!--<img alt="Guddi logo" src="./assets/guddi.png" style="width: 20em; max-width: 40em">-->
     <MenuBar @clicked="onClickChild"/>
     <Welcome v-if="currentApp == 'welcome'"/>
+    <Data v-if="currentApp == 'data'"/>
     <Locations v-if="currentApp == 'locations'"/>
     <Teams v-if="currentApp == 'teams'"/>
     <Assignments v-if="currentApp == 'assignments'"/>
@@ -12,6 +13,7 @@
 
 <script>
 import Welcome from './components/Welcome.vue'
+import Data from './components/Data.vue'
 import Locations from './components/Locations.vue'
 import Teams from './components/Teams.vue'
 import Assignments from './components/Assignments.vue'
@@ -21,7 +23,7 @@ import MenuBar from './components/MenuBar.vue'
 export default {
   name: 'app',
   components: {
-    Welcome, Teams, MenuBar, Assignments, Emails, Locations
+    Welcome, Data, Teams, MenuBar, Assignments, Emails, Locations
   },
   computed: {
     currentApp () {

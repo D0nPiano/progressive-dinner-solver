@@ -51,7 +51,7 @@ const store = new Vuex.Store({
       "hasKitchen",
       "allergies",
       "message",
-      "date",
+      /*"date",*/
       "kitchenUsed",
       "teamId",
       "lat",

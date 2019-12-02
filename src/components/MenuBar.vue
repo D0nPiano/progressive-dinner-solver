@@ -5,6 +5,12 @@
       :class="{active: $store.state.page == 'welcome'}"
       class="menu-button"
       href="#"
+    >Welcome</a>
+    <a
+      @click="onClickButton('data')"
+      :class="{active: $store.state.page == 'data'}"
+      class="menu-button"
+      href="#"
     >Upload / Download Data
       <img class="done-icon" v-if="$store.state.csv" :src="checkmark_icon" /></a>
     <a
