@@ -1,5 +1,6 @@
 {
   "name": "running-dinner-solver",
+  "homepage": "./testest/",
   "version": "0.1.0",
   "private": true,
   "scripts": {

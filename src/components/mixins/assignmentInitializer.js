@@ -92,14 +92,14 @@ export const assignmentInitializer = {
   
       // generate object from array
       teamArray.forEach(e => {
-        if (e.kitchenUsed == "Ja") {
+        if (e.kitchenUsed == this.$store.state.kitchenOptions.yes) {
           teams[e.teamId] = e;
         }
       });
   
       // add partner info
       teamArray.forEach(e => {
-        if (e.kitchenUsed != "Ja") {
+        if (e.kitchenUsed != this.$store.state.kitchenOptions.yes) {
           teams[e.teamId].partner = e;
         }
       });

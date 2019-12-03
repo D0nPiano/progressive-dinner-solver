@@ -62,9 +62,10 @@ const store = new Vuex.Store({
     ],
     csv: undefined,
     page: 'welcome',
-    hasLocationData: false,
+    hasLocationData: true,
     hasTeamIds: false,
     hasAssignments: false,
+    kitchenOptions: undefined
   },
   mutations: {
     setCsv(state, csv) {
@@ -105,6 +106,9 @@ const store = new Vuex.Store({
     },
     setCurrentPage(state, page) {
       state.page = page
+    },
+    setKitchenOptions(state, kitchenOptions) {
+      state.kitchenOptions = kitchenOptions
     }
   }
 })

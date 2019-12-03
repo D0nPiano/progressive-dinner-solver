@@ -20,7 +20,7 @@
       <div class="card-body">
         <h5 class="card-title">Participate in Coding</h5>
         <p class="card-text">
-          If you find a bug, don't hasitate to contact me or fix it yourself. All code is open-source and on github.<br />
+          If you find a bug, don't hasitate to contact me or fix it yourself. All code is open-source and <a href="https://github.com/D0nPiano/progressive-dinner-solver" target="_blank">on github.</a><br />
         </p>
       </div>
     </div>

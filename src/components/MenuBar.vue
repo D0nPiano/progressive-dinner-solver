@@ -61,7 +61,7 @@ export default {
   computed: {
     hasLocations: function() {
       return this.$store.state.csv.filter(x => {
-        return x.lat != "true" || x.kücheBenutzt == "Ja";
+        return x.lat != "true" || x.kücheBenutzt == this.$store.state.kitchenOptions.yes;
       });
     }
   }

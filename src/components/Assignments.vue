@@ -46,16 +46,21 @@
       <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" layer-type="base" />
       <l-marker
         v-for="kitchen in usedKitchens"
-        v-bind:key="kitchen.teamId"
+        v-bind:key="'kitchen_' + kitchen.teamId"
         :lat-lng="[kitchen.lat, kitchen.lon]"
-        :title="kitchen.Vorname"
+        :title="kitchen.firstname"
       >
-        <l-tooltip :content="kitchen.Vorname"></l-tooltip>
+          <l-icon
+            :icon-size="[15, 21]"
+            :icon-anchor="[8, 11]"
+            :icon-url="kitchen_yes_icon"
+          />
+          <l-tooltip :content="kitchen.firstname"></l-tooltip>
       </l-marker>
       <l-polyline
         v-for="team in teams"
         @mouseup="toggleSelectedTeam(team.teamId)"
-        :key="team.teamId"
+        :key="'line_'+team.teamId"
         :lat-lngs="team.sequence.latlngs"
         :color="getTeamColor(team.teamId, selectedTeamNo)"
       ></l-polyline>
@@ -64,7 +69,7 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LTooltip, LPolyline } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LTooltip, LPolyline, LIcon } from "vue2-leaflet";
 import { globalFunctions } from "./mixins/globalFunctions";
 import { assignmentInitializer } from "./mixins/assignmentInitializer";
 import { assignmentOptimizers } from "./mixins/assignmentOptimizers";
@@ -77,7 +82,8 @@ export default {
     LTileLayer,
     LMarker,
     LTooltip,
-    LPolyline
+    LPolyline,
+    LIcon
   },
   mixins: [
     assignmentInitializer,
@@ -88,7 +94,7 @@ export default {
   computed: {
     usedKitchens: function() {
       return this.csv.filter(x => {
-        return x.kücheBenutzt == "true" || x.kücheBenutzt == "Ja";
+        return x.kitchenUsed == this.$store.state.kitchenOptions.yes;
       });
     }
   },
@@ -160,6 +166,7 @@ export default {
     createRandomAssignment() {
       const assignments = this.getRandomAssignmentIds();
       this.applyAssignments(assignments);
+      // console.log('better assignments', this.teams); //eslint-disable-line
     },
     createFirstCourseOutsideAssignment() {
       let assignments = this.getRandomAssignmentIds();
@@ -178,6 +185,7 @@ export default {
   },
   data: function() {
     return {
+      kitchen_yes_icon: require('../assets/kitchen_yes_icon.png'),
       header: "Teams",
       currentZoom: 13,
       teams: {},

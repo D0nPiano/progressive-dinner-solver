@@ -128,13 +128,13 @@ export default {
     kitchens: function() {
       return this.csv.filter(x => {
         return (
-          x.hasKitchen != "Nein" && x.lat != x.firstname && x.lon != x.firstname
+          x.hasKitchen != this.$store.state.kitchenOptions.no && x.lat != x.firstname && x.lon != x.firstname
         );
       });
     },
     selectedKitchens: function() {
       return this.csv.filter(x => {
-        return x.kitchenUsed == "Ja";
+        return x.kitchenUsed == this.$store.state.kitchenOptions.yes;
       });
     },
     noKitchenToSelect: function() {
@@ -152,11 +152,6 @@ export default {
       kitchen_maybe_unused_icon: require("../assets/kitchen_maybe_unused_icon.png"),
       mapFields: ["firstname", "lastname", "organization", "kitchenUsed"],
       csv: [],
-      küchenMap: {
-        Ja: -1,
-        Nein: 1,
-        "Wenn es nicht anders geht": 0
-      },
       personToChangeFrom: 0,
       teamIdToChangeFrom: 0,
       changedPerson: 0,
@@ -234,19 +229,19 @@ export default {
       if (this.hasTeamIds){
         return;
       }
-      if (kitchen.kitchenUsed == "Ja") {
-        kitchen.kitchenUsed = "Nein";
+      if (kitchen.kitchenUsed == this.$store.state.kitchenOptions.yes) {
+        kitchen.kitchenUsed = this.$store.state.kitchenOptions.no;
       } else {
-        kitchen.kitchenUsed = "Ja";
+        kitchen.kitchenUsed = this.$store.state.kitchenOptions.yes;
       }
     },
     getIconFor(kitchen) {
-      if (kitchen.kitchenUsed == "Ja") {
-        return kitchen.hasKitchen == "Ja"
+      if (kitchen.kitchenUsed == this.$store.state.kitchenOptions.yes) {
+        return kitchen.hasKitchen == this.$store.state.kitchenOptions.yes
           ? this.kitchen_yes_used_icon
           : this.kitchen_maybe_used_icon;
       } else {
-        return kitchen.hasKitchen == "Ja"
+        return kitchen.hasKitchen == this.$store.state.kitchenOptions.yes
           ? this.kitchen_yes_unused_icon
           : this.kitchen_maybe_unused_icon;
       }
@@ -254,13 +249,13 @@ export default {
     preselectKitches() {
       this.csv.forEach(x => {
         if (
-          x.hasKitchen == "Ja" &&
+          x.hasKitchen == this.$store.state.kitchenOptions.yes &&
           this.distance(x.lat, x.lon, this.cityCenter[0], this.cityCenter[1]) <
             this.maxDist
         ) {
-          x.kitchenUsed = "Ja";
+          x.kitchenUsed = this.$store.state.kitchenOptions.yes;
         } else {
-          x.kitchenUsed = "Nein";
+          x.kitchenUsed = this.$store.state.kitchenOptions.no;
         }
       });
     },
@@ -270,8 +265,8 @@ export default {
       });
     },
     createTeamIds() {
-      let peopleWithKitchens = this.peopleWithUsedUnusedKitches("Ja");
-      let peopleWithoutKitchens = this.peopleWithUsedUnusedKitches("Nein");
+      let peopleWithKitchens = this.peopleWithUsedUnusedKitches(this.$store.state.kitchenOptions.yes);
+      let peopleWithoutKitchens = this.peopleWithUsedUnusedKitches(this.$store.state.kitchenOptions.no);
       let currentTeamId = 1;
       peopleWithKitchens.forEach(x => {
         x.teamId = currentTeamId;

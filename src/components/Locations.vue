@@ -38,7 +38,7 @@
           <l-icon
             :icon-size="[20, 30]"
             :icon-anchor="[10, 15]"
-            :icon-url="kitchen.hasKitchen == 'Ja' ? kitchen_yes_icon : kitchen_maybe_icon"
+            :icon-url="kitchen.hasKitchen == $store.state.kitchenOptions.yes ? kitchen_yes_icon : kitchen_maybe_icon"
           />
           <l-tooltip :content="kitchen.firstname"></l-tooltip>
         </l-marker>
@@ -65,12 +65,7 @@ export default {
       kitchen_maybe_icon: require('../assets/kitchen_maybe_icon.svg'),
       csv: [],
       currentZoom: 13,
-      hasLocationData: false,
-      küchenMap: {
-        Ja: -1,
-        Nein: 1,
-        "Wenn es nicht anders geht": 0
-      }
+      hasLocationData: false
     };
   },
   computed: {
@@ -78,11 +73,10 @@ export default {
       if (this.hasLocationData) {
         return this.csv.filter(x => {
           return (
-            x.hasKitchen != "Nein" &&
+            x.hasKitchen != this.$store.state.kitchenOptions.no &&
             x.lat != x.firstname &&
             x.lon != x.firstname
           );
-          // return x.kitchenUsed == "true" || x.kitchenUsed == "Ja";
         });
       } else {
         return [];

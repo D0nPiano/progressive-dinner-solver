@@ -166,7 +166,7 @@ export default {
     getPersonWithTeamId(teamId){
       let partner = null
       this.csv.forEach(e => {
-        if (e.teamId == teamId && e.kitchenUsed == "Ja"){
+        if (e.teamId == teamId && e.kitchenUsed == this.$store.state.kitchenOptions.yes){
           partner = e
         }
       })

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!--<img alt="Guddi logo" src="./assets/guddi.png" style="width: 20em; max-width: 40em">-->
+    <!--<img alt="Guddi logo" src="./assets/kitchen_yes_icon.png" style="width: 20em; max-width: 40em">-->
     <MenuBar @clicked="onClickChild"/>
     <Welcome v-if="currentApp == 'welcome'"/>
     <Data v-if="currentApp == 'data'"/>
