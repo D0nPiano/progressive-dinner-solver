@@ -20,6 +20,8 @@ Our program then adds location information by using nominatim, selects kitchens 
 
 There is more info on how it works on the welcome page of the website.
 
+In case you have any questions, feel free to contact [info@herebefore.de](mailto:info@herebefore.de].
+
 ## Project setup
 ```
 npm install
