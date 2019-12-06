@@ -65,7 +65,7 @@ export const assignmentInitializer = {
       // find the best places for the first course
       let teamDistanceMap = []
       for (let i = 1; i <= numOfTeams; i++) {
-        const distToCityCenter = this.distance(this.teams[i].lat, this.teams[i].lon, this.cityCenter[0], this.cityCenter[1])
+        const distToCityCenter = this.distance(this.teams[i].lat, this.teams[i].lon, this.$store.state.center[0], this.$store.state.center[1])
         teamDistanceMap.push([this.teams[i].teamId, distToCityCenter]);
       }
       teamDistanceMap = teamDistanceMap.sort((x, y) => {return y[1] - x[1]})

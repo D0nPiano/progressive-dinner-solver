@@ -40,7 +40,7 @@
     <l-map
       v-if="csv.length > -2"
       style="height: 50em; width: 100%"
-      :center="[49.872517,8.651333]"
+      :center="$store.state.center"
       :zoom="currentZoom"
     >
       <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" layer-type="base" />
@@ -193,7 +193,6 @@ export default {
       polylines: [],
       hasAssignments: false,
       selectedTeamNo: 0,
-      cityCenter: [49.872517, 8.651333],
       teamToAssignIdMap: [],
       assignmentMatrix: [],
       overallDistance: 0,

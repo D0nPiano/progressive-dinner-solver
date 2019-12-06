@@ -84,7 +84,7 @@
           <div v-if="csv.length > 0" style="height: 100%; width: 100%; margin: auto;">
             <l-map
               style="height: 100%; width: 100%;margin: 20px;"
-              :center="[49.872517,8.651333]"
+              :center="$store.state.center"
               :zoom="currentZoom"
             >
               <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" layer-type="base" />
@@ -144,7 +144,6 @@ export default {
   data: function() {
     return {
       maxDist: 2,
-      cityCenter: [49.872517, 8.651333],
       currentZoom: 13,
       kitchen_yes_used_icon: require("../assets/kitchen_yes_used_icon.png"),
       kitchen_yes_unused_icon: require("../assets/kitchen_yes_unused_icon.png"),
@@ -250,7 +249,7 @@ export default {
       this.csv.forEach(x => {
         if (
           x.hasKitchen == this.$store.state.kitchenOptions.yes &&
-          this.distance(x.lat, x.lon, this.cityCenter[0], this.cityCenter[1]) <
+          this.distance(x.lat, x.lon, this.$store.state.center[0], this.$store.state.center[1]) <
             this.maxDist
         ) {
           x.kitchenUsed = this.$store.state.kitchenOptions.yes;

@@ -10,6 +10,14 @@
     <p class="alert alert-success" v-if="hasLocationData">
       You are good to go! Go on and <a href="#" @click="$store.commit('setCurrentPage', 'teams')">select which kitchens are used and create teams!</a>
     </p>
+    <div class="card" style="max-width: 40em; margin: 0 auto;">
+      <div class="card-body">
+        <h5 class="card-title">Where is your Afterparty going to be?</h5>
+        <p class="card-text">
+          Simly set the location by clicking on the map. This can also be in a different town.
+        </p>
+      </div>
+    </div>
     <div class="card" style="max-width: 40em; margin: 0 auto;" v-if="csv.length > 2 && !this.hasLocationData">
       <div class="card-body">
         <h5 class="card-title">Add Locations</h5>
@@ -25,10 +33,17 @@
     <div v-if="csv.length > 2" style="height: 30em; width: 30em; margin: auto;">
       <l-map
         style="height: 100%; width: 100%;margin: 20px;"
-        :center="[49.872517,8.651333]"
+        :center="$store.state.center"
         :zoom="currentZoom"
+        @click="addMarker"
       >
         <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" layer-type="base" />
+        <l-marker
+          :lat-lng="[afterparty.lat, afterparty.lon]"
+          title="Afterpary Location"
+        >
+          <l-tooltip content="Afterpary Location"></l-tooltip>
+        </l-marker>
         <l-marker
           v-for="kitchen in kitchens"
           v-bind:key="kitchen.TeamId"
@@ -65,7 +80,8 @@ export default {
       kitchen_maybe_icon: require('../assets/kitchen_maybe_icon.svg'),
       csv: [],
       currentZoom: 13,
-      hasLocationData: false
+      hasLocationData: false,
+      afterparty: {lat: this.$store.state.center[0], lon: this.$store.state.center[1]}
     };
   },
   computed: {
@@ -109,8 +125,12 @@ export default {
       this.csv.forEach(x => {
         this.searchLocation(x.firstname, x.street, x.streetnumber, x.zip);
       });
-    },
-    exportCsv() {}
+    },    
+    addMarker(event) {
+      this.afterparty.lat = event.latlng.lat;
+      this.afterparty.lon = event.latlng.lng;
+      this.$store.commit("setNewCenter", [event.latlng.lat, event.latlng.lng])
+    }
   },
   mounted: function() {
     if (this.$store.state.csv) {

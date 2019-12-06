@@ -11,6 +11,17 @@ import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+
+try {
+  var seedData = require('./seed_data.json');
+  var seed_hasLocationData = false
+  var seed_kitchenOptions = { yes: "Ja", if: "Wenn es nicht anders geht", no: "Nein" }
+} catch (ex) {
+  seedData = undefined
+  seed_hasLocationData = false;
+  seed_kitchenOptions = undefined;
+}
+
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
@@ -60,12 +71,13 @@ const store = new Vuex.Store({
       "secondCourse",
       "thirdCourse"
     ],
-    csv: undefined,
+    csv: seedData,
     page: 'welcome',
-    hasLocationData: true,
+    hasLocationData: seed_hasLocationData,
     hasTeamIds: false,
     hasAssignments: false,
-    kitchenOptions: undefined
+    kitchenOptions: seed_kitchenOptions,
+    center: [48.872517, 8.651333],
   },
   mutations: {
     setCsv(state, csv) {
@@ -106,6 +118,9 @@ const store = new Vuex.Store({
     },
     setCurrentPage(state, page) {
       state.page = page
+    },
+    setNewCenter(state, center) {
+      state.center = center
     },
     setKitchenOptions(state, kitchenOptions) {
       state.kitchenOptions = kitchenOptions
