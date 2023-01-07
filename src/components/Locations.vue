@@ -59,6 +59,7 @@
         </l-marker>
       </l-map>
     </div>
+    {{ csv }}
   </div>
 </template>
 
@@ -105,8 +106,8 @@ export default {
       location = encodeURI(location);
       this.axios
         .get(
-          "https://nominatim.openstreetmap.org/search?format=json&limit=5&q=" +
-            location
+          "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+            encodeURIComponent(location)
         )
         .then(response => {
           //console.log(response.data[0]); //eslint-disable-line
@@ -121,10 +122,41 @@ export default {
           this.$store.commit("setCsv", this.csv);
         });
     },
+    searchLocationViaPhoton(firstname, street, streetnumber, zip) {
+      let location = street + " " + streetnumber + " " + zip;
+      location = encodeURI(location);
+      this.axios
+        .get(
+          "https://photon.komoot.io/api/?limit=1&q=" +
+            location
+        )
+        .then(response => {
+          // console.log(response.data); //eslint-disable-line
+          this.header = response.data[0];
+          if (response.data.features.length >= 1) {
+            for (let i = 0; i < this.csv.length; i++) {
+              let x = this.csv[i]
+              if (x.firstname == firstname && x.street == street) {
+                this.csv[i].lat = response.data.features[0].geometry.coordinates[1];
+                this.csv[i].lon = response.data.features[0].geometry.coordinates[0];
+              }
+              
+            }
+            this.hasLocationData = true;
+            this.$store.commit("setCsv", this.csv);
+          }
+        });
+    },
     addLocationInfo() {
       this.csv.forEach(x => {
-        this.searchLocation(x.firstname, x.street, x.streetnumber, x.zip);
+        // this.searchLocation(x.firstname, x.street, x.streetnumber, x.zip);
+        this.searchLocationViaPhoton(x.firstname, x.street, x.streetnumber, x.zip);
+
       });
+      const myTimeout = setTimeout(() => {
+        console.log("here")
+        this.$forceUpdate();
+      }, 5000);
     },    
     addMarker(event) {
       this.afterparty.lat = event.latlng.lat;

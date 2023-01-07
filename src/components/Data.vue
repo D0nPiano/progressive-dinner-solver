@@ -17,7 +17,14 @@
       <div class="card-body">
         <h5 class="card-title">Upload CSV-File</h5>
         <p class="card-text">
-          <vue-csv-import v-model="csv" :map-fields="mapFields"></vue-csv-import>
+          <select v-model="selected">
+            <option disabled value="">Please select one</option>
+            <option value="new">New File</option>
+            <option value="old">Continue with existing data</option>
+          </select>
+          {{ selected }}
+          <vue-csv-import v-if="selected == 'new'" v-model="csv" :map-fields="newDataMapFiels" auto-match-fields auto-match-ignore-case :headers="true"></vue-csv-import>
+          <vue-csv-import v-if="selected == 'old'" v-model="csv" :map-fields="mapFields" auto-match-fields auto-match-ignore-case :headers="true"></vue-csv-import>
         </p>
       </div>
     </div>
@@ -78,6 +85,49 @@ export default {
   name: "Data",
   components: { VueCsvImport },
   computed: {
+    csv: {
+      get: function () {
+        return this.currentCsv
+      },
+      set: function (newValue) {
+        console.log(newValue)
+        let renameKey = (obj, oldKey, newKey) => {
+          for (let i = 0; i < obj.length; i++) {
+            if (obj[i][oldKey]) {
+              obj[i][newKey] = obj[i][oldKey]
+              delete obj[i][oldKey]
+            }
+            
+          }
+          return obj
+        }
+        let setKeyToFirstName = (obj, key) => {
+          for (let i = 0; i < obj.length; i++) {
+            if (!obj[i][key]){
+              obj[i][key] = obj[i]["firstname"]
+            }
+          }
+          return obj
+        }
+        newValue = renameKey(newValue, 'first-name', 'firstname')
+        newValue = renameKey(newValue, 'last-name', 'lastname')
+        newValue = renameKey(newValue, 'address-street', 'street')
+        newValue = renameKey(newValue, 'address-number', 'streetnumber')
+        newValue = renameKey(newValue, 'postal-code', 'zip')
+        newValue = renameKey(newValue, 'organisation', 'organization')
+        newValue = renameKey(newValue, 'kitchen', 'hasKitchen')
+        newValue = setKeyToFirstName(newValue, "kitchenUsed")
+        newValue = setKeyToFirstName(newValue, "teamId")
+        newValue = setKeyToFirstName(newValue, "kitchenUsed")
+        newValue = setKeyToFirstName(newValue, "lat")
+        newValue = setKeyToFirstName(newValue, "lon")
+        newValue = setKeyToFirstName(newValue, "firstCourse")
+        newValue = setKeyToFirstName(newValue, "secondCourse")
+        newValue = setKeyToFirstName(newValue, "thirdCourse")
+        console.log(newValue)
+        this.currentCsv = newValue
+      }
+    },
     getKitchenOptions: function() {
       let kitchenOptions = []
       this.csv.forEach(e => {
@@ -90,11 +140,26 @@ export default {
   },
   data: function() {
     return {
-      csv: [],
+      currentCsv: [],
       mapFields: this.$store.state.mapFields,
+      selected: 'new',
       select_yes: undefined,
       select_if: undefined,
-      select_no: undefined
+      select_no: undefined,
+      newDataMapFiels: [
+        "first-name",
+        "last-name",
+        "email",
+        "phone",
+        "address-street",
+        "address-number",
+        "postal-code",
+        "area",
+        "organisation",
+        "kitchen",
+        "allergies",
+        "message",
+      ]
     };
   },
   methods: {

@@ -77,7 +77,7 @@ const store = new Vuex.Store({
     hasTeamIds: false,
     hasAssignments: false,
     kitchenOptions: seed_kitchenOptions,
-    center: [48.872517, 8.651333],
+    center: [49.872517, 8.651333],
   },
   mutations: {
     setCsv(state, csv) {
