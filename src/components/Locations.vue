@@ -59,7 +59,6 @@
         </l-marker>
       </l-map>
     </div>
-    {{ csv }}
   </div>
 </template>
 
