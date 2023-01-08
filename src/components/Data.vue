@@ -90,7 +90,6 @@ export default {
         return this.currentNewCsv
       },
       set: function (newValue) {
-        console.log(newValue)
         let renameKey = (obj, oldKey, newKey) => {
           for (let i = 0; i < obj.length; i++) {
             if (obj[i][oldKey]) {
@@ -124,7 +123,6 @@ export default {
         newValue = setKeyToFirstName(newValue, "firstCourse")
         newValue = setKeyToFirstName(newValue, "secondCourse")
         newValue = setKeyToFirstName(newValue, "thirdCourse")
-        console.log(newValue)
         this.currentNewCsv = newValue
         this.csv = JSON.parse(JSON.stringify(newValue))
       }

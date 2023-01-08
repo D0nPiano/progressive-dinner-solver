@@ -64,7 +64,26 @@ export default {
         emailInfo.firstname = e.firstname
         emailInfo.email = e.email
         emailInfo.teamId = e.teamId
-        emailInfo.teamCourse = this.getCourseName(e.teamId)
+
+        let teamCourseEnglish = this.getCourseName(e.teamId)
+        const courses = {
+          "first": "Vorspeise",
+          "second": "Hauptspeise",
+          "third": "Nachspeise"
+        }
+        emailInfo.teamCourse = courses[teamCourseEnglish]
+
+        let peopleForTheirCourse = this.getPeopleForTeamCourse(teamCourseEnglish, e.teamId)
+        let allergies = []
+        peopleForTheirCourse.forEach( e => {
+          if (e.allergies != "") {
+            allergies.push(e.allergies)
+          }
+        })
+        allergies = allergies.filter((e) => e.trim().toLowerCase() != "keine")
+        allergies = allergies.filter((e) => e.trim().toLowerCase() != "nein")
+        emailInfo.allergies = allergies.join(" | ")
+        // console.log(e.firstname, e.teamId, teamCourseEnglish, peopleForTheirCourse)
 
         // Team Partner Info
         emailInfo.teamPartnerFirstname = teamPartner.firstname
@@ -113,20 +132,29 @@ export default {
       });
       this.emails_created = true
     },
-    getCourseName(teamid) { // TODO: should be agnostic from number of teams
+    getCourseName(teamid) {
       let courseName = ""
       this.csv.forEach(e => {
         if (e.teamId == teamid){
           if (e.firstCourse == teamid) {
-            courseName = "Vorspeise"
+            courseName = "first"
           } else if (e.secondCourse == teamid) {
-            courseName = "Hauptspeise"
+            courseName = "second"
           } else {
-            courseName = "Nachspeise"
+            courseName = "third"
           }
         }
       })
       return courseName
+    },
+    getPeopleForTeamCourse(course, teamid) {
+      let peopleTheyCookFor = []
+      this.csv.forEach(e => {
+        if (e[course + "Course"] == teamid){
+          peopleTheyCookFor.push(e)
+        }
+      })
+      return peopleTheyCookFor
     },
     getTeamPartner(person){
       let partner = null

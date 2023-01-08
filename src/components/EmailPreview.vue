@@ -19,6 +19,10 @@
         E-Mail: {{ currentEmail.teamPartnerEmail }}<br />
         Telefon: {{ currentEmail.teamPartnerPhone }}<br />
         <br />
+        Bitte beachtet beim Zubereiten Deiner {{ currentEmail.teamCourse }}, dass es Personen mit folgenden Allergien gibt:<br />
+        {{ currentEmail.allergies }}<br />
+        <br />
+
         Hier ist euer Ablaufplan:<br />
         Erster Gang:<br />
         {{ currentEmail.firstCoursePersonFirstname }} {{ currentEmail.firstCoursePersonLastname }} ({{
