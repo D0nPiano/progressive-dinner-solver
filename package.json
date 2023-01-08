@@ -9,24 +9,19 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^1.0.0",
     "core-js": "^3.3.2",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.9.3",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
-    "vue-csv-import": "^2.3.9",
+    "vue-csv-import": "^3.3.9",
     "vue-json-csv": "^1.2.9",
-    "vue-tables-2": "^1.5.46",
-    "vue2-leaflet": "^2.2.1",
+    "vue-tables-2": "^2.0.0",
+    "vue2-leaflet": "^2.4.3",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
     "raw-loader": "^3.1.0",
     "vue-template-compiler": "^2.6.10"
   },
