@@ -32,12 +32,16 @@
       </v-client-table>
     </div>
     <span v-html="filledEmailTemplate"></span>
+    <EmailPreview :emails="emails"></EmailPreview>
   </div>
 </template>
 
 <script>
+import EmailPreview from './EmailPreview.vue'
+
 export default {
   name: 'Emails',
+  components: { EmailPreview },
   data: function() {
     return {
       csv: [],
@@ -106,55 +110,23 @@ export default {
         emailInfo.thirdCoursePersonZip = thirdCoursePerson.zip
 
         this.emails.push(emailInfo)
-
-/*
-        let template = Guddi_Einteilung
-        template = template.replace(/%%%Vorname%%%/gi, e.firstname)
-        template = template.replace(/%%%Team_Course%%%/gi, this.getCourseName(e.teamId))
-        //console.log('partner', e.firstname, teamPartner.firstname) // eslint-disable-line
-        template = template.replace(/%%%Teampartner_Vorname%%%/gi, teamPartner.firstname)
-        template = template.replace(/%%%Teampartner_Nachname%%%/gi, teamPartner.lastname)
-        template = template.replace(/%%%Teampartner_Email%%%/gi, teamPartner.email)
-        template = template.replace(/%%%Teampartner_Organisation%%%/gi, teamPartner.organization)
-        template = template.replace(/%%%Teampartner_Telefon%%%/gi, emailInfo.teamPartnerPhone)
-
-        template = template.replace(/%%%FirstCourse_Vorname%%%/gi, firstCoursePerson.firstname)
-        template = template.replace(/%%%FirstCourse_Nachname%%%/gi, firstCoursePerson.lastname)
-        template = template.replace(/%%%FirstCourse_Organisation%%%/gi, firstCoursePerson.organization)
-        template = template.replace(/%%%FirstCourse_Viertel%%%/gi, firstCoursePerson.area)
-        template = template.replace(/%%%FirstCourse_Street%%%/gi, firstCoursePerson.street)
-        template = template.replace(/%%%FirstCourse_Streetnumber%%%/gi, firstCoursePerson.streetnumber)
-        template = template.replace(/%%%FirstCourse_PLZ%%%/gi, firstCoursePerson.zip)
-
-        template = template.replace(/%%%SecondCourse_Vorname%%%/gi, secondCoursePerson.firstname)
-        template = template.replace(/%%%SecondCourse_Nachname%%%/gi, secondCoursePerson.lastname)
-        template = template.replace(/%%%SecondCourse_Organisation%%%/gi, secondCoursePerson.organization)
-        template = template.replace(/%%%SecondCourse_Viertel%%%/gi, secondCoursePerson.area)
-        template = template.replace(/%%%SecondCourse_Street%%%/gi, secondCoursePerson.street)
-        template = template.replace(/%%%SecondCourse_Streetnumber%%%/gi, secondCoursePerson.streetnumber)
-        template = template.replace(/%%%SecondCourse_PLZ%%%/gi, secondCoursePerson.zip)
-
-        template = template.replace(/%%%ThirdCourse_Vorname%%%/gi, thirdCoursePerson.firstname)
-        template = template.replace(/%%%ThirdCourse_Nachname%%%/gi, thirdCoursePerson.lastname)
-        template = template.replace(/%%%ThirdCourse_Organisation%%%/gi, thirdCoursePerson.organization)
-        template = template.replace(/%%%ThirdCourse_Viertel%%%/gi, thirdCoursePerson.area)
-        template = template.replace(/%%%ThirdCourse_Street%%%/gi, thirdCoursePerson.street)
-        template = template.replace(/%%%ThirdCourse_Streetnumber%%%/gi, thirdCoursePerson.streetnumber)
-        template = template.replace(/%%%ThirdCourse_PLZ%%%/gi, thirdCoursePerson.zip)
-        this.filledEmailTemplate = template
-        e.generated_mail = template
-        */
       });
       this.emails_created = true
     },
     getCourseName(teamid) { // TODO: should be agnostic from number of teams
-      if (teamid < 8) {
-        return "Vorspeise"
-      } else if (teamid >= 8 && teamid < 15) {
-        return "Hauptspeise"
-      } else {
-        return "Nachspeise"
-      }
+      let courseName = ""
+      this.csv.forEach(e => {
+        if (e.teamId == teamid){
+          if (e.firstCourse == teamid) {
+            courseName = "Vorspeise"
+          } else if (e.secondCourse == teamid) {
+            courseName = "Hauptspeise"
+          } else {
+            courseName = "Nachspeise"
+          }
+        }
+      })
+      return courseName
     },
     getTeamPartner(person){
       let partner = null
