@@ -23,7 +23,7 @@
             <option value="old">Continue with existing data</option>
           </select>
           {{ selected }}
-          <vue-csv-import v-if="selected == 'new'" v-model="csv" :map-fields="newDataMapFiels" auto-match-fields auto-match-ignore-case :headers="true"></vue-csv-import>
+          <vue-csv-import v-if="selected == 'new'" v-model="newCsv" :map-fields="newDataMapFiels" auto-match-fields auto-match-ignore-case :headers="true"></vue-csv-import>
           <vue-csv-import v-if="selected == 'old'" v-model="csv" :map-fields="mapFields" auto-match-fields auto-match-ignore-case :headers="true"></vue-csv-import>
         </p>
       </div>
@@ -85,9 +85,9 @@ export default {
   name: "Data",
   components: { VueCsvImport },
   computed: {
-    csv: {
+    newCsv: {
       get: function () {
-        return this.currentCsv
+        return this.currentNewCsv
       },
       set: function (newValue) {
         console.log(newValue)
@@ -125,7 +125,8 @@ export default {
         newValue = setKeyToFirstName(newValue, "secondCourse")
         newValue = setKeyToFirstName(newValue, "thirdCourse")
         console.log(newValue)
-        this.currentCsv = newValue
+        this.currentNewCsv = newValue
+        this.csv = JSON.parse(JSON.stringify(newValue))
       }
     },
     getKitchenOptions: function() {
@@ -140,7 +141,8 @@ export default {
   },
   data: function() {
     return {
-      currentCsv: [],
+      csv: [],
+      currentNewCsv: [],
       mapFields: this.$store.state.mapFields,
       selected: 'new',
       select_yes: undefined,

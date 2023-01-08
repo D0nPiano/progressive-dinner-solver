@@ -7,6 +7,7 @@
     <div style="max-width: 50em; margin: auto">
       <download-csv
         class="button"
+        name="teamData.csv"
         :data="csv">
          <button class="btn btn-primary">Backup your created Teams</button>
       </download-csv>
@@ -14,6 +15,7 @@
       <download-csv
         class="button"
         v-if="emails_created"
+        name="emailData.csv"
         :data="emails">
          <button class="btn btn-primary">Download Data for Emails</button>
       </download-csv>
